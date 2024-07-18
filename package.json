@@ -1,0 +1,17 @@
+{
+  "name": "reddit-trc-task",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start:api-gateway": "cd api-gateway && npm start",
+    "start:auth-service": "cd services/auth-service && npm start",
+    "start:post-service": "cd services/post-service && npm start",
+    "start:user-service": "cd services/user-service && npm start",
+    "start": "concurrently \"npm run start:api-gateway\" \"npm run start:auth-service\" \"npm run start:post-service\" \"npm run start:user-service\""
+  },
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "drizzle-kit": "^0.23.0",
+    "drizzle-orm": "^0.32.0"
+  }
+}

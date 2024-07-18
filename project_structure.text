@@ -1,0 +1,94 @@
+- .env
+- .gitignore
+- api-gateway
+  - dist
+    - app.js
+    - routes
+      - index.js
+    - swagger
+      - apigatewayswagger.js
+    - swagger.js
+  - package-lock.json
+  - package.json
+  - src
+    - app.ts
+    - routes
+      - index.ts
+    - swagger
+      - apigatewayswagger.ts
+    - swagger.ts
+  - tsconfig.json
+  - tsconfig.spec.json
+- docker-compose.yaml
+- kubernetes
+  - ingress.yaml
+  - post-deployement.yaml
+  - postgres-deployment.yaml
+  - postgres-service.yaml
+  - user-deploymeny.yaml
+- package-lock.json
+- package.json
+- readme
+- services
+  - auth-service
+    - .env
+    - DockerFile
+    - drizzle-kit.config.ts
+    - drizzleconfig.ts
+    - package-lock.json
+    - package.json
+    - src
+      - app.ts
+      - controllers
+        - authController.ts
+      - database.ts
+      - models
+        - User.ts
+      - routes
+        - authRoutes.ts
+      - server.ts
+      - services
+        - auth.ts
+      - strategies
+        - googleStrategies.ts
+      - swagger.ts
+      - utils
+        - googel-oauth.ts
+        - jwt.ts
+        - otp.ts
+        - paseto.ts
+        - password.ts
+    - tsconfig.json
+    - tsconfig.spec.json
+  - post-service
+    - DockerFile
+    - package-lock.json
+    - package.json
+    - src
+      - app.ts
+      - controllers
+        - postController.ts
+      - database.ts
+      - models
+        - Post.ts
+      - routes
+        - postRoutes.ts
+      - server.ts
+      - services
+        - post-services.ts
+      - swagger
+        - post-swagger.ts
+      - swagger.ts
+      - utils
+        - pasto.ts
+  - user-service
+    - DockerFile
+    - src
+      - app.ts
+      - controllers
+        - models
+          - routes
+            - services
+      - database.ts
+      - server.ts
+- tsconfig.base.json
