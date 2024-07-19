@@ -1,20 +1,25 @@
+// Swagger configuration for API Gateway
+import express from 'express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { Express } from 'express';
+const app = express();
 
-const options = {
-    definition: {
+const swaggerOptions = {
+    swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'API Gateway Documentation',
+            title: 'API Gateway',
             version: '1.0.0',
+            description: 'API Gateway for Reddit-like application',
         },
+        servers: [
+            {
+                url: 'http://localhost:3000',
+            },
+        ],
     },
     apis: ['./src/routes/*.ts'], // Path to the API docs
 };
 
-const swaggerSpec = swaggerJsDoc(options);
-
-export const setupSwagger = (app: Express) => {
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));

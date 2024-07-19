@@ -1,44 +1,58 @@
-import { Request, Response } from 'express';
-import { db, User } from '../models/User';
-import { createPastoToken, verifyPastoToken } from '../utils/pasto';
-import { googleAuth, localAuth } from '../services/auth';
-import { hashPassword, comparePassword } from '../utils/password';
+import { Router } from 'express';
+import { AuthService } from '../services/auth';
+import passport from 'passport';
 
-export const signup = async (req: Request, res: Response) => {
+const router = Router();
+const authService = new AuthService();
+
+// Route for user registration
+router.post('/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  console.log('Registering in controller:', name, email);
+  try {
+    const user = await authService.register(name, email, password);
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+});
+
+// Route for user login
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  const hashedPassword = await hashPassword(password);
-  const user = await db.users.insert({ email, password: hashedPassword }).returning();
-  const token = await createPastoToken({ userId: user.id });
-  res.status(201).json({ token });
-};
+  const user = await authService.validateUser(email, password);
+  if (user) {
+    res.json(user); // User object after successful authentication
+  } else {
+    res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
 
-export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const user = await localAuth(email, password);
-  const token = await createPastoToken({ userId: user.id });
-  res.status(200).json({ token });
-};
+// Route for Google OAuth login
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-export const googleLogin = async (req: Request, res: Response) => {
-  const { tokenId } = req.body;
-  const user = await googleAuth(tokenId);
-  const token = await createPastoToken({ userId: user.id });
-  res.status(200).json({ token });
-};
+// Google OAuth callback route
+router.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    // Successful authentication, redirect home or send user info
+    res.redirect('/'); // Adjust this to your application's needs
+  }
+);
 
-export const changePassword = async (req: Request, res: Response) => {
-  const { oldPassword, newPassword } = req.body;
-  const userId = (await verifyPastoToken(req.headers.authorization!)).userId;
-  const user = await db.users.findFirst({ where: { id: userId } });
-  if (!user) return res.status(404).json({ message: 'User not found' });
+// Optional: Route to get the current authenticated user
+router.get('/me', (req, res) => {
+  if (req.user) {
+    res.json(req.user); // Return the authenticated user's info
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+});
 
-  const valid = await comparePassword(oldPassword, user.password);
-  if (!valid) return res.status(400).json({ message: 'Invalid old password' });
-
-  await db.users.update({ where: { id: userId }, data: { password: await hashPassword(newPassword) } });
-  res.status(200).json({ message: 'Password changed successfully' });
-};
-
-export const logout = (req: Request, res: Response) => {
+// Optional: Route for logging out
+router.post('/logout', (req, res, next) => {
+  req.logout(next); // Passport's logout method
   res.status(200).json({ message: 'Logged out successfully' });
-};
+});
+
+export default router;

@@ -1,31 +1,24 @@
-import { db, User } from '../models/User';
-import { hashPassword, comparePassword } from '../utils/password';
-import { OAuth2Client } from 'google-auth-library';
+// services/auth-service/src/services/authService.ts
+import { createUser, findUserByEmail, registerUser, validateUser, findOrCreateGoogleAccount } from '../../../db/entity'; // Import DB functions
+import { User } from '../models/User'; // Adjust the import based on your project structure
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+export class AuthService {
+  async register(name: string, email: string, password: string, username: string): Promise<User> {
+    console.log('Registering user:', name, email);
+    const existingUser = await findUserByEmail(email);
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
 
-export const localAuth = async (email: string, password: string) => {
-  const user = await db.select().from(User).where(User.email.eq(email)).single();
-  if (!user) throw new Error('User not found');
-  const valid = await comparePassword(password, user.password);
-  if (!valid) throw new Error('Invalid password');
-  return user;
-};
-
-export const googleAuth = async (tokenId: string) => {
-  const ticket = await client.verifyIdToken({
-    idToken: tokenId,
-    audience: process.env.GOOGLE_CLIENT_ID,
-  });
-  const payload = ticket.getPayload();
-  const user = await db.select().from(User).where(User.googleId.eq(payload.sub)).single();
-  if (!user) {
-    const newUser = await db.insert(User).values({
-      email: payload.email,
-      googleId: payload.sub,
-      password: await hashPassword(Math.random().toString(36).slice(-8)), // Random password
-    }).returning(User);
-    return newUser;
+    const newUser = await registerUser(name, email, password, username);
+    return newUser; // Return the created user
   }
-  return user;
-};
+
+  async validateUser(email: string, password: string): Promise<User | null> {
+    return await validateUser(email, password); // Validate user credentials
+  }
+
+  async findOrCreateGoogleAccount(profile: any): Promise<User> {
+    return await findOrCreateGoogleAccount(profile); // Find or create user from Google profile
+  }
+}
