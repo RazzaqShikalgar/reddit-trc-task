@@ -14,8 +14,34 @@ const swaggerOptions = {
                 url: 'http://localhost:3000', // Adjust based on your server configuration
             },
         ],
+        components: {
+            securitySchemes: {
+                jwtCookieAuth: {
+                    type: "apiKey",
+                    in: "cookie",
+                    name: "jwt",
+                },
+            },
+        },
     },
     apis: ['./src/routes/*.ts'], // Path to the API docs
+    security: [
+        {
+            jwtCookieAuth: [],
+        },
+    ],
+    components: {
+        responses: {
+            headers: {
+                "Set-Cookie": {
+                    description: "Cookies set in the response",
+                    schema: {
+                        type: "string",
+                    },
+                },
+            },
+        },
+    },
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);

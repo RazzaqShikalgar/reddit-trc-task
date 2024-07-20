@@ -1,13 +1,18 @@
+// services/auth-service/src/app.ts
+
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
-import authRoutes from '../src/routes/authRoutes';
+import authRoutes from './routes/authRoutes';
+import cookieParser from "cookie-parser";
 import { localStrategy } from '../src/strategies/localStrategy';
-import { googleStrategy } from '../src/strategies/googleStrategies';
+// import { googleStrategy } from './strategies/googleStrategies';
 import dotenv from 'dotenv';
-import cors from 'cors'; // Import cors
-import { findUserById } from '../../db/entity';
+import cors from 'cors';
+// import { findUserById } from './db/auth_entity';
 import { setupSwagger } from './swagger';
+import { googleStrategy } from '../src/strategies/googleStrategies';
+import { findUserById } from '../src/db/auth_entity';
 
 dotenv.config();
 
@@ -15,38 +20,36 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-    origin: 'http://localhost:3000', // Change this to your client URL
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    // origin: 'http://localhost:3000',
+    // credentials: true,
 };
-
-app.use(cors(corsOptions)); // Use CORS middleware
-
+app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
+        secure: true,
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000, // Session expires after 24 hours
+        maxAge: 24 * 60 * 60 * 1000,
     },
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(googleStrategy);
 passport.use(localStrategy);
+passport.use(googleStrategy);
 
 passport.serializeUser((user: any, done) => {
-    done(null, user.id); // Ensure the first argument is null for no error
+    done(null, user.id);
 });
 
 passport.deserializeUser(async (id: string, done) => {
-    const user = await findUserById(id); // Use your DB function to find the user
-    console.log('Deserialized User:', user); // Log the deserialized user
-    done(null, user); // Attach user object to req.user
+    const user = await findUserById(id);
+    done(null, user);
 });
 
 setupSwagger(app);

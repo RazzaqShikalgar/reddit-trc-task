@@ -1,9 +1,23 @@
-// services/comments-service/src/middleware/authMiddleware.ts
-import { Request, Response, NextFunction } from 'express';
+// services/auth-service/src/middleware/authMiddleware.ts
 
-export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-    if (req.isAuthenticated()) {
-        return next(); // Proceed to the next middleware or route handler
+import { Request, Response, NextFunction } from 'express';
+import { validateToken } from '../helper/authHelper';
+
+export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies.jwt; // Get token from cookies
+
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
     }
-    return res.status(401).json({ message: 'Unauthorized' }); // User is not authenticated
+
+    const validToken = validateToken(token);
+    console.log({ "this is valid data": validToken });
+    if (validToken.success) {
+        req.user = { id: validToken.data!.id }; // Attach user ID to req.user
+        console.log({ "this is req.user": req.user });
+        
+        next();
+    } else {
+        res.status(401).json({ message: 'Invalid token' });
+    }
 };

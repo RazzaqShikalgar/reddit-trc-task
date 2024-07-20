@@ -1,12 +1,13 @@
 // services/subreddits-service/src/routes/subredditRoutes.ts
 import { Router } from 'express';
 import { createSubreddit, getAllSubreddits } from '../controller/subredditController';
+import { verifyToken } from '../../../auth-service/src/middleware/auth-middleware';
 
 const router = Router();
 
 /**
  * @swagger
- * /subreddits:
+ * /create-subreddits:
  *   post:
  *     summary: Create a new subreddit
  *     tags: [Subreddits]
@@ -25,7 +26,7 @@ const router = Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', createSubreddit);
+router.post('/', verifyToken, createSubreddit);
 
 /**
  * @swagger

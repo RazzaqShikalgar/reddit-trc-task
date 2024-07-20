@@ -9,7 +9,7 @@ export const googleStrategy = new GoogleStrategy(
   {
     clientID: process.env.CLIENT_ID ?? '',
     clientSecret: process.env.CLIENT_SECRET ?? '',
-    callbackURL: 'http://localhost:3000/auth/google/callback',
+    callbackURL: '/oauth2/redirect/google',
   },
   async (accessToken: string, refreshToken: string, profile: any, done: Function) => {
     const authService = new AuthService();

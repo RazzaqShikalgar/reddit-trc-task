@@ -2,8 +2,8 @@
 export interface Comment {
     id: number;              // Serial ID
     text: string;            // Comment text
-    createdAt: Date;        // Creation timestamp
-    replyToId?: number;     // Optional ID of the comment being replied to
+    createdAt: Date | null;        // Creation timestamp
+    replyToId?: number | null;     // Optional ID of the comment being replied to
     authorId: string;       // ID of the author (user)
     postId: number;         // ID of the associated post
 }

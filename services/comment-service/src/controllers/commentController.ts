@@ -6,13 +6,13 @@ const commentService = new CommentService();
 
 export const createComment = async (req: Request, res: Response) => {
     const { text, postId, replyToId } = req.body;
-
+    const authorId = (req.user && (req.user as { userId: string })?.userId) as string;
     if (!text || !postId) {
         return res.status(400).json({ error: 'Text and post ID are required.' });
     }
 
     try {
-        const comment = await commentService.createComment(req.user.id, text, postId, replyToId);
+        const comment = await commentService.createComment(authorId, text, postId, replyToId);
         res.status(201).json(comment);
     } catch (error) {
         console.error('Error creating comment:', error);

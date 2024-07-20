@@ -1,7 +1,7 @@
 // services/subreddits-service/src/controller/subredditController.ts
 import { Request, Response } from 'express';
 import { SubredditService } from '../services/subredditServices';
-
+import { User } from '../../../auth-service/src/models/User'
 const subredditService = new SubredditService();
 
 export const createSubreddit = async (req: Request, res: Response) => {
@@ -12,7 +12,7 @@ export const createSubreddit = async (req: Request, res: Response) => {
     }
 
     try {
-        const subreddit = await subredditService.createSubreddit(req.user.id, name);
+        const subreddit = await subredditService.createSubreddit(req.user?.id as string, name) as User;
         res.status(201).json(subreddit);
     } catch (error) {
         console.error('Error creating subreddit:', error);

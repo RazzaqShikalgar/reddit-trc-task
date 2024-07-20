@@ -19,7 +19,7 @@ export class CommentService {
             authorId,
             postId,
             replyToId,
-        }; // Return the new comment structure
+        };
     }
 
     async getCommentsByPostId(postId: number): Promise<Comment[]> {

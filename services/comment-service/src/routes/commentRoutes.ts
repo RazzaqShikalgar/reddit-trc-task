@@ -1,7 +1,7 @@
 // services/comments-service/src/routes/commentRoutes.ts
 import { Router } from 'express';
 import { createComment, getCommentsByPostId } from '../controllers/commentController';
-import { isAuthenticated } from '../../../auth-service/src/middleware/auth-middleware';
+import { verifyToken } from '../../../auth-service/src/middleware/auth-middleware';
 const router = Router();
 
 /**
@@ -29,7 +29,7 @@ const router = Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', isAuthenticated, createComment);
+router.post('/', verifyToken, createComment);
 
 /**
  * @swagger

@@ -1,5 +1,5 @@
 // services/posts-service/src/services/postService.ts
-import { createPost, getAllPosts, findPostById } from '../db/entity'; // Import DB functions
+import { createPost, getAllPosts, findPostById } from '../db/post-entity'; // Import DB functions
 import { Post } from '../model/post'; // Import the Post interface
 
 export class PostService {

@@ -2,7 +2,7 @@
 export interface Subreddit {
     id: number;              // Serial ID
     name: string;           // Subreddit name
-    createdAt: Date;        // Creation timestamp
-    updatedAt: Date;        // Update timestamp
-    creatorId: string;      // Creator's user ID
+    createdAt: Date | null;        // Creation timestamp
+    updatedAt: Date | null;        // Update timestamp
+    creatorId: string | null;      // Creator's user ID
 }
