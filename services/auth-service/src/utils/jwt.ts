@@ -1,17 +1,17 @@
-import { V4 } from 'paseto';
-import { KeyObject } from 'crypto';
-import { readFileSync } from 'fs';
+// // services/auth-service/src/middleware/authMiddleware.ts
+// import dotenv from 'dotenv';
+// import { Request, Response, NextFunction } from 'express';
+// import jwt from 'jsonwebtoken';
+// dotenv.config({ path: '.env' });
 
-const key = readFileSync(process.env.PASETO_KEY || 'path/to/key.pem');
+// export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+//     const token = req.headers.authorization?.split(' ')[1];
 
-export const createToken = async (userId: string): Promise<string> => {
-    return V4.sign({ userId }, KeyObject.from(key), { expiresIn: '1h' });
-};
-
-export const verifyToken = async (token: string): Promise<any> => {
-    try {
-        return V4.verify(token, KeyObject.from(key));
-    } catch (err) {
-        throw new Error('Invalid token');
-    }
-};
+//     try {
+//         const decoded = jwt.verify(token || '', process.env.JWT_SECRET || "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu");
+//         req.user = decoded;
+//         next();
+//     } catch (error) {
+//         res.status(401).json({ message: 'Invalid token' });
+//     }
+// };

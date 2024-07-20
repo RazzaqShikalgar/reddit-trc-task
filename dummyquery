@@ -1,0 +1,4 @@
+// "start:post-service": "cd services/post-service && npm start",
+    // "start:user-service": "cd services/user-service && npm start",
+        // "start:api-gateway": "cd api-gateway && npm start",
+       // "start": "concurrently \"npm run start:api-gateway\" \"npm run start:auth-service\" \"npm run start:post-service\" \"npm run start:user-service\""

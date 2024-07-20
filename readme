@@ -1,116 +1,134 @@
-# Project Name
-
-This project is a [brief description of your project].
-
-## Table of Contents
-
-- [Technologies Used](#technologies-used)
-- [File Structure](#file-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Deployment](#deployment)
-- [API Documentation](#api-documentation)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Technologies Used
-
-- JavaScript
-- npm
-- PostgreSQL
-- DrizzleORM
-- Microservices
-- Kubernetes
-- Swagger
-
-## File Structure
-
-Here is the file structure of the project:
-
-```
-project-root/
+.
 ├── .env
 ├── .gitignore
-├── api-gateway/
-│   ├── dist/
-│   │   ├── app.js
-│   │   ├── routes/
-│   │   │   └── index.js
-│   │   ├── swagger/
-│   │   │   └── apigatewayswagger.js
-│   │   └── swagger.js
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── src/
-│   │   ├── app.ts
-│   │   ├── routes/
-│   │   │   └── index.ts
-│   │   ├── swagger/
-│   │   │   ├── apigatewayswagger.ts
-│   │   │   └── swagger.ts
-│   ├── tsconfig.json
-│   └── tsconfig.spec.json
-├── docker-compose.yaml
-├── kubernetes/
+├── DockerFile
+├── drizzle
+│   ├── index.ts
+│   ├── migrate.ts
+│   ├── migrations
+│   │   ├── 0000_living_mikhail_rasputin.sql
+│   │   ├── 0001_concerned_speedball.sql
+│   │   └── meta
+│   │       ├── 0000_snapshot.json
+│   │       ├── 0001_snapshot.json
+│   │       └── _journal.json
+│   ├── schema.account.ts
+│   ├── schema.commentst.ts
+│   ├── schema.commentVotes.ts
+│   ├── schema.posts.ts
+│   ├── schema.sessions.ts
+│   ├── schema.subreddits.ts
+│   ├── schema.subscription.ts
+│   ├── schema.users.ts
+│   └── schema.votes.ts
+├── drizzle.config.ts
+├── dummyquery
+├── kubernetes
 │   ├── ingress.yaml
-│   ├── post-deployement.yaml
+│   ├── post-deployment.yaml
 │   ├── postgres-deployment.yaml
 │   ├── postgres-service.yaml
-│   └── user-deploymeny.yaml
+│   └── user-deployment.yaml
 ├── package-lock.json
 ├── package.json
-├── readme/
-├── services/
-│   ├── auth-service/
-│   │   ├── .env
-│   │   ├── DockerFile
-│   │   ├── drizzle-kit.config.ts
-│   │   ├── drizzleconfig.ts
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   ├── src/
-│   │   │   ├── app.ts
-│   │   │   ├── controllers/
-│   │   │   │   └── authController.ts
-│   │   │   ├── database.ts
-│   │   │   ├── models/
-│   │   │   │   └── User.ts
-│   │   │   ├── routes/
-│   │   │   │   └── authRoutes.ts
-│   │   │   ├── server.ts
-│   │   │   ├── services/
-│   │   │   │   └── auth.ts
-│   │   │   ├── strategies/
-│   │   │   │   └── googleStrategies.ts
-│   │   │   ├── swagger.ts
-│   │   │   └── utils/
-│   │   │       ├── googel-oauth.ts
-│   │   │       ├── jwt.ts
-│   │   │       ├── otp.ts
-│   │   │       ├── paseto.ts
-│   │   │       └── password.ts
-│   │   ├── tsconfig.json
-│   │   └── tsconfig.spec.json
-│   └── post-service/
-│       ├── DockerFile
-│       ├── package-lock.json
-│       ├── package.json
-│       └── src/
-│           ├── app.ts
-│           ├── controllers/
-│           │   └── postController.ts
-│           ├── database.ts
-│           ├── models/
-│           │   └── Post.ts
-│           ├── routes/
-│           │   └── postRoutes.ts
-│           ├── server.ts
-│           ├── services/
-│           │   └── post-services.ts
-│           ├── swagger/
-│           │   └── post-swagger.ts
-│           ├── swagger.ts
-│           └── utils/
-│               └── pasto.ts
+├── project_structure.txt
+├── readme
+└── services
+    ├── auth-service
+    │   ├── .env
+    │   ├── DockerFile
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   ├── src
+    │   │   ├── app.ts
+    │   │   ├── controllers
+    │   │   │   └── authController.ts
+    │   │   ├── db
+    │   │   │   └── auth_entity.ts
+    │   │   ├── helper
+    │   │   │   └── authHelper.ts
+    │   │   ├── middleware
+    │   │   │   └── auth-middleware.ts
+    │   │   ├── models
+    │   │   │   └── User.ts
+    │   │   ├── routes
+    │   │   │   └── authRoutes.ts
+    │   │   ├── services
+    │   │   │   └── auth.ts
+    │   │   ├── strategies
+    │   │   │   ├── googleStrategies.ts
+    │   │   │   └── localStrategy.ts
+    │   │   ├── swagger.ts
+    │   │   ├── types
+    │   │   │   └── jwtPayload.ts
+    │   │   └── utils
+    │   │       ├── google-oauth.ts
+    │   │       ├── jwt.ts
+    │   │       ├── otp.ts
+    │   │       ├── paseto.ts
+    │   │       └── password.ts
+    │   ├── tsconfig.json
+    │   └── tsconfig.spec.json
+    ├── comment-service
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   ├── src
+    │   │   ├── app.ts
+    │   │   ├── controllers
+    │   │   │   └── commentController.ts
+    │   │   ├── db
+    │   │   │   └── entity.ts
+    │   │   ├── models
+    │   │   │   └── comment.ts
+    │   │   ├── routes
+    │   │   │   └── commentRoutes.ts
+    │   │   ├── services
+    │   │   │   └── commentService.ts
+    │   │   └── swagger.ts
+    │   ├── tsconfig.json
+    │   └── tsconfig.spec.json
+    ├── posts-service
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   ├── src
+    │   │   ├── app.ts
+    │   │   ├── controller
+    │   │   │   └── postController.ts
+    │   │   ├── db
+    │   │   │   └── post-entity.ts
+    │   │   ├── model
+    │   │   │   └── post.ts
+    │   │   ├── routes
+    │   │   │   └── postRoutes.ts
+    │   │   ├── service
+    │   │   │   └── postService.ts
+    │   │   ├── swagger.ts
+    │   │   └── utils
+    │   │       └── validatePost.ts
+    │   ├── tsconfig.json
+    │   └── tsconfig.spec.json
+    ├── rabbitmq
+    │   ├── consumer.ts
+    │   ├── producer.ts
+    │   └── rabbitmq.ts
+    └── subreddits-service
+        ├── package-lock.json
+        ├── package.json
+        ├── src
+        │   ├── app.ts
+        │   ├── controller
+        │   │   └── subredditController.ts
+        │   ├── db
+        │   │   └── entity.ts
+        │   ├── model
+        │   │   └── subreddit.ts
+        │   ├── routes
+        │   │   └── subredditRoutes.ts
+        │   ├── services
+        │   │   └── subredditServices.ts
+        │   ├── swagger.ts
+        │   └── utils
+        │       └── validateSubreddit.ts
+        ├── tsconfig.json
+        └── tsconfig.spec.json
 └── tsconfig.base.json
-```

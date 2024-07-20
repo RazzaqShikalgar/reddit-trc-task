@@ -3,15 +3,44 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start:api-gateway": "cd api-gateway && npm start",
-    "start:auth-service": "cd services/auth-service && npm start",
-    "start:post-service": "cd services/post-service && npm start",
-    "start:user-service": "cd services/user-service && npm start",
-    "start": "concurrently \"npm run start:api-gateway\" \"npm run start:auth-service\" \"npm run start:post-service\" \"npm run start:user-service\""
+    "start:services": "cd services && concurrently \"npm run start:auth-service\" \"npm run start:posts-service\" \"npm run start:comments-service\" \"npm run start:subreddits-service\"",
+    "start:auth-service": "nodemon services/auth-service/src/app.ts",
+    "start:posts-service": "node services/post-service/src/app.ts",
+    "start:comments-service": "node services/comment-service/src/app.ts",
+    "start:subreddits-service": "node service/subreddits-service/src/subreddits-service.js",
+    "dev": "npm run watch:app",
+    "install:services": "cd services && npm install --prefix ./auth-service && npm install --prefix ./posts-service && npm install --prefix ./comments-service && npm install --prefix ./subreddits-service",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx drizzle/migrate.ts latest",
+    "db:push": "tsx drizzle/migrate.ts push && npm run start:auth-service"
   },
   "dependencies": {
+    "@auth/core": "^0.34.1",
+    "amqplib": "^0.10.4",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^7.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.32.0",
+    "fix-esm": "^1.0.1",
+    "i": "^0.3.7",
+    "knex": "^3.1.0",
+    "nodemon": "^3.1.4",
+    "npm": "^10.8.2",
+    "pg": "^8.12.0",
+    "postgres": "^3.4.4",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.5",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.14.11",
+    "@types/pg": "^8.11.6",
+    "@types/uuid": "^10.0.0",
     "drizzle-kit": "^0.23.0",
-    "drizzle-orm": "^0.32.0"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.5.3"
   }
 }
