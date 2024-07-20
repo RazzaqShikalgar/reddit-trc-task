@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-      "start": "nodemon --exec \"ts-node -r tsconfig-paths/register src/app.ts\"",
+      "start": "nodemon src/app.ts",
       "build": "tsc",
       "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts"
     },

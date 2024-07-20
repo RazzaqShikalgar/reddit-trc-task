@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start:auth-service": "cd services/auth-service && npm start",
-    "start:posts-service": "cd services/posts-service && npm start",
-    "start:subreddits-service": "cd services/subreddits-service && npm start",
+    "start:services": "cd services && concurrently \"npm run start:auth-service\" \"npm run start:posts-service\" \"npm run start:comments-service\" \"npm run start:subreddits-service\"",
+    "start:auth-service": "nodemon services/auth-service/src/app.ts",
+    "start:posts-service": "node services/post-service/src/app.ts",
+    "start:comments-service": "node services/comment-service/src/app.ts",
+    "start:subreddits-service": "node service/subreddits-service/src/subreddits-service.js",
     "dev": "npm run watch:app",
+    "install:services": "cd services && npm install --prefix ./auth-service && npm install --prefix ./posts-service && npm install --prefix ./comments-service && npm install --prefix ./subreddits-service",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx drizzle/migrate.ts latest",
     "db:push": "tsx drizzle/migrate.ts push && npm run start:auth-service"

@@ -21,4 +21,8 @@ export class PostService {
     async getAllPosts(): Promise<Post[]> {
         return await getAllPosts(); // Fetch all posts
     }
+ async getPostById(postId: number): Promise<Post | null> {
+        return await findPostById(postId); // Fetch post by ID
+    }
+
 }

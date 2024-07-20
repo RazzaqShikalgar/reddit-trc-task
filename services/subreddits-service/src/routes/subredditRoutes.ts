@@ -38,6 +38,6 @@ router.post('/create-subreddits', verifyToken, createSubreddit);
  *       200:
  *         description: List of subreddits
  */
-router.get('/', getAllSubreddits);
+router.get('/subreddits', getAllSubreddits);
 
 export default router;

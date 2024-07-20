@@ -1,12 +1,12 @@
 // services/posts-service/src/routes/postRoutes.ts
 import { Router } from 'express';
-import { createPost, getAllPosts } from '../controller/postController';
-
+import { createPost, getAllPosts, getPostById } from '../controller/postController';
+import { verifyToken } from '../../../auth-service/src/middleware/auth-middleware'
 const router = Router();
 
 /**
  * @swagger
- * /posts:
+ * /posts/create-posts:
  *   post:
  *     summary: Create a new post
  *     tags: [Posts]
@@ -29,11 +29,11 @@ const router = Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', createPost);
+router.post('/create-posts', verifyToken, createPost);
 
 /**
  * @swagger
- * /posts:
+ * /posts/get-all-posts:
  *   get:
  *     summary: Get all posts
  *     tags: [Posts]
@@ -41,6 +41,10 @@ router.post('/', createPost);
  *       200:
  *         description: List of posts
  */
-router.get('/', getAllPosts);
+router.get('/get-all-posts', getAllPosts);
+
+
+router.get('get-post-by-id', getPostById);
+
 
 export default router;

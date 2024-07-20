@@ -6,7 +6,7 @@ const router = Router();
 
 /**
  * @swagger
- * /comments:
+ * /comments/create-comment:
  *   post:
  *     summary: Create a new comment
  *     tags: [Comments]
@@ -29,7 +29,7 @@ const router = Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', verifyToken, createComment);
+router.post('/create-comment', verifyToken, createComment);
 
 /**
  * @swagger
