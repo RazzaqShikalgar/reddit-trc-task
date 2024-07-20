@@ -7,7 +7,7 @@ const router = Router();
 
 /**
  * @swagger
- * /create-subreddits:
+ * /subreddits/create-subreddits:
  *   post:
  *     summary: Create a new subreddit
  *     tags: [Subreddits]
@@ -26,11 +26,11 @@ const router = Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', verifyToken, createSubreddit);
+router.post('/create-subreddits', verifyToken, createSubreddit);
 
 /**
  * @swagger
- * /subreddits:
+ * /subreddits/subreddits:
  *   get:
  *     summary: Get all subreddits
  *     tags: [Subreddits]

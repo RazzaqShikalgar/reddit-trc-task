@@ -15,7 +15,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     if (validToken.success) {
         req.user = { id: validToken.data!.id }; // Attach user ID to req.user
         console.log({ "this is req.user": req.user });
-        
+
         next();
     } else {
         res.status(401).json({ message: 'Invalid token' });

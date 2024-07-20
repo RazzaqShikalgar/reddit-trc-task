@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth';
 import jwt from 'jsonwebtoken';
 import { verifyToken } from '../middleware/auth-middleware';
 import passport from 'passport';
-
+import { sendMessage } from '../../../rabbitmq/producer';
 const router = Router();
 const authService = new AuthService();
 
@@ -86,6 +86,8 @@ router.post('/login', async (req, res) => {
         // Generate JWT token
         const token = jwt.sign({ id: user.id }, 'goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu', { expiresIn: '1h' });
         res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: "none", domain: 'localhost' }); // Set the JWT as a cookie
+        await sendMessage('user_logged_in', { id: user.id, userName: user.name }); // Send message to RabbitMQ
+
         res.json({ token, user });
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
@@ -195,7 +197,7 @@ router.get('/profile', verifyToken, async (req, res) => {
             return res.status(400).json({ error: 'User ID is missing' });
         }
         console.log({ "userId it is": id });
-        
+
         const user = await authService.findUserById(id);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

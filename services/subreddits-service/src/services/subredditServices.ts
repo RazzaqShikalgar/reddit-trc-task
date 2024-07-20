@@ -1,7 +1,7 @@
 // services/subreddits-service/src/services/subredditService.ts
 import { createSubreddit, getAllSubreddits, findSubredditById } from '../db/entity'; // Import DB functions
 import { Subreddit } from '../model/subreddit'; // Import the Subreddit interface
-import { publishMessage } from '../../../rabbitmq/publisher';
+import { sendMessage } from '../../../rabbitmq/producer';
 export class SubredditService {
     async createSubreddit(creatorId: string, name: string): Promise<Subreddit> {
         const newSubreddit: Subreddit = {
@@ -13,7 +13,7 @@ export class SubredditService {
         };
 
         await createSubreddit(newSubreddit);
-        await publishMessage('subreddit_created', JSON.stringify(newSubreddit)); // Publish message to RabbitMQ
+        await sendMessage('subreddit_created', JSON.stringify(newSubreddit)); // Publish message to RabbitMQ
         return newSubreddit; // Return the created subreddit
     }
 
