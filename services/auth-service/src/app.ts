@@ -13,7 +13,7 @@ import cors from 'cors';
 import { setupSwagger } from './swagger';
 import { googleStrategy } from '../src/strategies/googleStrategies';
 import { findUserById } from '../src/db/auth_entity';
-
+import { connectRabbitMQ } from '../../rabbitmq/rabbitmq';
 dotenv.config();
 
 const app = express();
@@ -51,10 +51,11 @@ passport.deserializeUser(async (id: string, done) => {
     const user = await findUserById(id);
     done(null, user);
 });
+connectRabbitMQ();
 
 setupSwagger(app);
 app.use('/auth', authRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}/api-docs`);
 });

@@ -1,9 +1,10 @@
 import { relations } from 'drizzle-orm'
-import { integer, pgTable, primaryKey, text } from 'drizzle-orm/pg-core'
+import { integer, pgTable, primaryKey, text, pgEnum } from 'drizzle-orm/pg-core'
 
 import { comments } from './schema.commentst'
 import { users } from './schema.users'
-import { voteType } from './schema.votes'
+
+export const voteType = pgEnum('type', ['UP', 'DOWN'])
 
 export const commentVotes = pgTable(
     'commentVote',

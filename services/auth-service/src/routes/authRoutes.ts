@@ -75,16 +75,18 @@ router.post('/register', async (req, res) => {
  *         description: Invalid credentials
  */
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
 
     try {
+        const { email, password } = req.body;
         const user = await authService.validateUser(email, password);
         if (!user) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-
+        console.log({ "user it is": user });
         // Generate JWT token
-        const token = jwt.sign({ id: user.id }, 'goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu', { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id }, 'goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu', { expiresIn: '1d' });
+        console.log({ "token it is": token });
+
         res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: "none", domain: 'localhost' }); // Set the JWT as a cookie
         await sendMessage('user_logged_in', { id: user.id, userName: user.name }); // Send message to RabbitMQ
 

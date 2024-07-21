@@ -10,6 +10,7 @@ dotenv.config({ path: ".env" });
 
 const queryClient = postgres(process.env.DATABASE_URL || "postgres://postgres:admin@localhost:5432/reddit");
 const db = drizzle(queryClient);
+
 //TODO errors
 // Function to create a new subreddit
 export const createSubreddit = async (subredditData: Subreddit): Promise<void> => {

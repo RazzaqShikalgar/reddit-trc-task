@@ -7,6 +7,8 @@ const postService = new PostService();
 
 export const createPost = async (req: Request, res: Response) => {
     const { title, content, subredditId } = req.body;
+    console.log({ "this is data": req.body });
+    
     const id = (req.user && (req.user as { id: string })?.id) as string;
     if (!title || !content || !subredditId) {
         return res.status(400).json({ error: 'Title, content, and subreddit ID are required.' });

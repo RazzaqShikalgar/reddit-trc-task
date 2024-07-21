@@ -5,7 +5,6 @@ import { sendMessage } from '../../../rabbitmq/producer';
 export class SubredditService {
     async createSubreddit(creatorId: string, name: string): Promise<Subreddit> {
         const newSubreddit: Subreddit = {
-            id: 0, // This will be auto-generated
             name,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -13,7 +12,7 @@ export class SubredditService {
         };
 
         await createSubreddit(newSubreddit);
-        await sendMessage('subreddit_created', JSON.stringify(newSubreddit)); // Publish message to RabbitMQ
+        // await sendMessage('subreddit_created', JSON.stringify(newSubreddit)); // Publish message to RabbitMQ
         return newSubreddit; // Return the created subreddit
     }
 

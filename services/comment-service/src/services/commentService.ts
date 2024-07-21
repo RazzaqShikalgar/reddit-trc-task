@@ -13,7 +13,6 @@ export class CommentService {
 
         await dbCreateComment(newComment); // Call the DB function
         return {
-            id: 0, // This should be updated from the DB
             text,
             createdAt: new Date(),
             authorId,
