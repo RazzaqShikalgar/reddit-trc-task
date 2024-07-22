@@ -1,16 +1,15 @@
 // services/posts-service/src/app.ts
 import express from 'express';
 import { json } from 'body-parser';
-import postRoutes from './routes/postRoutes';
-import swaggerUi from 'swagger-ui-express';
+import voteRoutes from './routes/voteRoutes';
 import { setupSwagger } from './swagger';
 import cookieParser from 'cookie-parser';
 import { verifyToken } from '../../auth-service/src/middleware/auth-middleware';
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3005;
 
 app.use(json());
-app.use('/posts', postRoutes);
+app.use('/votes', voteRoutes);
 app.use(cookieParser());
 setupSwagger(app);
 app.use(verifyToken);

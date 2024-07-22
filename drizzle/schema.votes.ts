@@ -4,7 +4,7 @@ import { integer, pgEnum, pgTable, primaryKey, text } from 'drizzle-orm/pg-core'
 import { posts } from './schema.posts'
 import { users } from './schema.users'
 
-export const voteType = pgEnum('type', ['UP', 'DOWN'])
+const voteType = pgEnum('type', ['UP', 'DOWN'])
 
 export const votes = pgTable(
     'vote',

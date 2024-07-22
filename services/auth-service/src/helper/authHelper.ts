@@ -15,11 +15,11 @@ export const validateToken = (token: string): {
         if (!token) {
             throw new Error("Access Denied. No JWT found in cookie");
         }
+console.log("token", token);
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+        const decoded = jwt.verify(token, "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu") as {
             id: string
         };
-        console.log({ "This is decoded": decoded });
         if (decoded) {
             return { success: true, data: { id: decoded.id } }; // Return the user ID
         } else {

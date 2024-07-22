@@ -20,7 +20,7 @@ const router = Router();
  *               title:
  *                 type: string
  *               content:
- *                 type: object
+ *                 type: string
  *               subredditId:
  *                 type: integer
  *     responses:
@@ -42,7 +42,6 @@ router.post('/create-posts', verifyToken, createPost);
  *         description: List of posts
  */
 router.get('/get-all-posts', getAllPosts);
-
 
 router.get('get-post-by-id', getPostById);
 

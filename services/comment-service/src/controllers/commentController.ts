@@ -6,7 +6,7 @@ const commentService = new CommentService();
 
 export const createComment = async (req: Request, res: Response) => {
     const { text, postId, replyToId } = req.body;
-    const authorId = (req.user && (req.user as { userId: string })?.userId) as string;
+    const authorId = (req.user && (req.user as { id: string })?.id) as string;
     if (!text || !postId) {
         return res.status(400).json({ error: 'Text and post ID are required.' });
     }

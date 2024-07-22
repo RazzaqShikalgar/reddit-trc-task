@@ -1,6 +1,6 @@
 // services/comments-service/src/model/comment.ts
 export interface Comment {
-    id: number;              // Serial ID
+    id?: number;              // Serial ID
     text: string;            // Comment text
     createdAt: Date | null;        // Creation timestamp
     replyToId?: number | null;     // Optional ID of the comment being replied to

@@ -5,13 +5,13 @@ const swaggerOptions = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'subreddit Service API',
+            title: 'subscription Service API',
             version: '1.0.0',
-            description: 'API documentation for the subreddit Service',
+            description: 'API documentation for the subscription Service',
         },
         servers: [
             {
-                url: 'http://localhost:3001', // Adjust based on your server configuration
+                url: 'http://localhost:3006', // Adjust based on your server configuration
             },
         ],
         components: {

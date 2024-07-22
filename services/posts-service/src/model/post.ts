@@ -1,6 +1,6 @@
 // services/posts-service/src/model/post.ts
 export interface Post {
-    id: number;              // Serial ID
+    id?: number;              // Serial ID
     title: string;          // Post title
     content: any;           // Post content (JSON)
     createdAt: Date | null;        // Creation timestamp

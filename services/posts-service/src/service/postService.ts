@@ -5,7 +5,6 @@ import { Post } from '../model/post'; // Import the Post interface
 export class PostService {
     async createPost(authorId: string, title: string, content: any, subredditId: number): Promise<Post> {
         const newPost: Post = {
-            id: 0, // This will be auto-generated
             title,
             content,
             createdAt: new Date(),
